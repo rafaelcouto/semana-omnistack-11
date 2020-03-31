@@ -18,6 +18,6 @@ Frontend da aplicação criado utilizando ReactJS.
 
 # Mobile
 
-Aplicativo mobile da aplicação utilizando React Native.
+Aplicativo mobile criado utilizando React Native.
 
 - Iniciar: `npm start`
