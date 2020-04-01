@@ -1,19 +1,33 @@
+/*
 const express = require('express');
-const OngController = require('./controllers/OngController');
+const { celebrate, Segments, Joi } = require('celebrate');
+
 const IncidentController = require('./controllers/IncidentController');
 const ProfileController = require('./controllers/ProfileController');
 const SessionController = require('./controllers/SessionController')
-const routes = express.Router();
+const router = express.Router();
 
-routes.post('/sessions', SessionController.create);
+router.post('/sessions', SessionController.create);
 
-routes.get('/ongs', OngController.index);
-routes.post('/ongs', OngController.create);
+router.get('/profile', celebrate({
+    [Segments.HEADERS]: Joi.object({
+        authorization: Joi.string().required()
+    }).unknown()
+}), ProfileController.index);
 
-routes.get('/profile', ProfileController.index);
 
-routes.get('/incidents', IncidentController.index);
-routes.post('/incidents', IncidentController.create);
-routes.delete('/incidents/:id', IncidentController.delete)
 
-module.exports = routes;
+require('./routes/ong')(router);
+*/
+
+const express = require('express');
+const router = express.Router();
+
+const glob = require('glob');
+const path = require('path');
+
+glob.sync('src/routes/**/*.js').forEach(function(file) {
+    require(path.resolve(file))(router);
+});
+
+module.exports = router;
